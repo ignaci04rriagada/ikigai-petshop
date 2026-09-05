@@ -4,7 +4,7 @@
  * ARCHIVO: index.php
  */
 include 'includes/head.php'; 
-include 'includes/header.php'; // Incluimos el nav/header
+include 'includes/header.php'; //
 ?>
 
 <main class="container my-4">

@@ -1,0 +1,12 @@
+/**
+ * ==============================================================================
+ * PROYECTO: Ikigai Tienda de Mascotas
+ * ARCHIVO: assets/css/main.css
+ * ROL: Hoja de Estilos Principal (CSS Architecture - BEM)
+ * ------------------------------------------------------------------------------
+ * DESCRIPCIÓN:
+ * - Importa y centraliza los módulos CSS del proyecto.
+ * - Sigue la convención de nomenclatura BEM (Block, Element, Modifier).
+ * - Agrupa variables globales, reset, componentes visuales y animaciones.
+ * ==============================================================================
+ */

@@ -1,0 +1,16 @@
+/**
+ * ==============================================================================
+ * PROYECTO: Ikigai Tienda de Mascotas
+ * ARCHIVO: assets/css/components/_header.css
+ * ROL: Estilos de la Barra de Navegación y Header Principal
+ * ------------------------------------------------------------------------------
+ * DESCRIPCIÓN:
+ * - Maqueta la barra superior fija (logotipo, categorías y buscador).
+ * - Define la apariencia del botón flotante/contenedor del Carrito.
+ * - Posiciona el contador numérico (badge) de ítems sobre el ícono del carrito.
+ * 
+ * GAMIFICACIÓN ASOCIADA:
+ * - Sirve como contenedor del ícono objetivo para la animación "Vuelo al carrito".
+ * - Aloja la regla de transformación/pivote para el efecto "Mueve la colita".
+ * ==============================================================================
+ */

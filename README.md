@@ -37,6 +37,11 @@ ikigai-petshop/
 ├── package.json              # Configuracion y scripts
 ├── .gitignore                # Archivos ignorados por Git
 ├── README.md                 # Documentacion tecnica del proyecto
+├── includes/                      # 
+│   ├── footer.php
+│   ├── head.php       
+│   ├── header.php
+│   └── inventario.php        
 │
 ├── api/                      # Backend desacoplado en PHP (Endpoints JSON)
 │   ├── configuracion/

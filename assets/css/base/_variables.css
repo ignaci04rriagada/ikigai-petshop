@@ -1,0 +1,25 @@
+/* ===================== TOKENS Y VARIABLES ===================== */
+:root {
+  --ink: #26081b;
+  --ink-soft: #5c3a52;
+  --magenta: #e10b7c;
+  --magenta-deep: #a80a5f;
+  --magenta-soft: #ff5ba7;
+  --pink-bg: #ffeaf3;
+  --pink-line: #ffd3e7;
+  --cream: #fffaf7;
+  --amber: #ffb100;
+  --mint: #14b871;
+  --slot: #2b0e22;
+  --slot-light: #3d1631;
+  --slot-line: #5a2246;
+
+  --font-display: "Baloo 2", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-pixel: "Press Start 2P", monospace;
+
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 9px;
+  --shadow-card: 0 2px 0 var(--pink-line), 0 10px 24px -14px rgba(38, 8, 27, 0.35);
+}

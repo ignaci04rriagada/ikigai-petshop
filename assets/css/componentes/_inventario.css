@@ -1,0 +1,94 @@
+/**
+ * ==============================================================================
+ * PROYECTO: Ikigai Tienda de Mascotas
+ * ARCHIVO: assets/css/components/_sidebar-cart.css
+ * ROL: Estilos del Carrito Lateral Desplegable (Drawer)
+ * ------------------------------------------------------------------------------
+ * DESCRIPCIÓN:
+ * - Define el maquetado del panel lateral deslizante (Drawer) y su fondo oscuro (Overlay).
+ * - Estiliza el listado de productos seleccionados, botones de incremento/eliminación y totales.
+ * 
+ * GAMIFICACIÓN Y REGLAS DE NEGOCIO:
+ * - Diseña la barra de progreso "Plato de comida" para visualizar el avance hacia el Envío Gratis.
+ * - Estiliza la tabla/matriz de Descuentos Progresivos por Volumen (1, 2, 3, 4+ productos).
+ * ==============================================================================
+ */
+ /* ===================== INVENTARIO / CARRITO INFERIOR ===================== */
+.inv {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+  background: var(--slot);
+  border-top: 4px solid var(--slot-line);
+  box-shadow: 0 -12px 30px -10px rgba(0,0,0,0.4);
+  font-family: var(--font-body);
+  color: #fff;
+  max-height: 78vh;
+  display: flex; flex-direction: column;
+  transition: max-height .28s ease;
+}
+
+/* Manejo del ocultamiento/despliegue mediante data-state */
+.inv[data-state="collapsed"] .inv-panel { display: none; }
+.inv[data-state="collapsed"] { max-height: 66px; }
+
+.inv-handle {
+  width: 100%; background: var(--slot-light); border: none; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 22px; font-weight: 700; font-size: 0.85rem;
+}
+.inv-handle-label { display: flex; align-items: center; gap: 8px; }
+.inv-handle-chev { transition: transform .2s ease; font-size: 0.9rem; }
+.inv[data-state="collapsed"] .inv-handle-chev { transform: rotate(180deg); }
+
+.inv-panel { overflow-y: auto; padding: 18px 22px 4px; }
+.inv-panel-top { display: flex; gap: 24px; }
+.inv-slots {
+  flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px; align-content: start;
+}
+.inv-slot {
+  aspect-ratio: 1; background: var(--slot-light); border: 2px solid var(--slot-line);
+  border-radius: 8px; position: relative; display: flex; align-items: center; justify-content: center;
+  padding: 6px;
+}
+.inv-slot-qty {
+  position: absolute; bottom: 2px; right: 4px; font-family: var(--font-pixel);
+  font-size: 0.6rem; color: var(--amber); text-shadow: 1px 1px 0 #000;
+}
+.inv-slot-remove {
+  position: absolute; top: -6px; right: -6px; width: 18px; height: 18px;
+  background: var(--magenta); color: #fff; border: 2px solid var(--slot);
+  border-radius: 50%; font-size: 0.6rem; line-height: 1; display: flex;
+  align-items: center; justify-content: center; opacity: 0; transition: opacity .12s ease;
+}
+.inv-slot:hover .inv-slot-remove { opacity: 1; }
+
+.inv-side { width: 250px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
+.ship-progress-head { display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; margin-bottom: 6px; color: rgba(255,255,255,0.85); }
+.ship-bar { height: 12px; background: var(--slot-light); border-radius: 999px; overflow: hidden; border: 1px solid var(--slot-line); }
+.ship-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--magenta), var(--mint)); transition: width .35s ease; }
+
+.discount-table { border: 1px solid var(--slot-line); border-radius: 10px; overflow: hidden; }
+.discount-row { display: flex; justify-content: space-between; padding: 6px 12px; font-size: 0.78rem; background: var(--slot-light); }
+.discount-row + .discount-row { border-top: 1px solid var(--slot-line); }
+.discount-row.active { background: var(--magenta); font-weight: 800; }
+
+.inv-empty { text-align: center; color: rgba(255,255,255,0.55); padding: 18px 0 22px; font-size: 0.85rem; }
+
+.inv-bottom {
+  display: flex; align-items: center; gap: 18px;
+  padding: 12px 22px; border-top: 1px solid var(--slot-line);
+  background: var(--slot);
+}
+.inv-totals { display: flex; flex-direction: column; gap: 2px; }
+.inv-count { font-size: 0.78rem; color: rgba(255,255,255,0.7); }
+.inv-discount { font-size: 0.72rem; color: var(--amber); font-weight: 700; }
+.inv-price-block { margin-left: auto; text-align: right; display: flex; flex-direction: column; }
+.inv-subtotal { font-size: 0.72rem; color: rgba(255,255,255,0.5); text-decoration: line-through; }
+.inv-total { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
+.checkout-btn {
+  background: var(--magenta); color: #fff; border: none; border-radius: 999px;
+  padding: 12px 24px; font-weight: 800; font-size: 0.88rem; white-space: nowrap;
+  transition: background .15s ease, opacity .15s ease;
+}
+.checkout-btn:hover:not(:disabled) { background: var(--magenta-deep); }
+.checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; }

@@ -1,0 +1,71 @@
+/* ===================== RESET Y ESTILOS BASE ===================== */
+* { 
+  box-sizing: border-box; 
+}
+
+html { 
+  scroll-behavior: smooth; 
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 84px; /* Espacio para la barra comprimida del inventario */
+}
+
+h1, h2, h3, h4 { 
+  font-family: var(--font-display); 
+  margin: 0; 
+  color: var(--ink); 
+}
+
+p { 
+  margin: 0; 
+}
+
+ul { 
+  list-style: none; 
+  margin: 0; 
+  padding: 0; 
+}
+
+button { 
+  font-family: inherit; 
+  cursor: pointer; 
+}
+
+img { 
+  max-width: 100%; 
+  display: block; 
+}
+
+.skip-link {
+  position: absolute; 
+  left: -999px; 
+  top: 0;
+  background: var(--ink); 
+  color: #fff; 
+  padding: 10px 16px; 
+  z-index: 999;
+  border-radius: 0 0 8px 0;
+}
+
+.skip-link:focus { 
+  left: 0; 
+}
+
+:focus-visible { 
+  outline: 3px solid var(--magenta-deep); 
+  outline-offset: 2px; 
+}
+
+/* Reducción de movimiento accesible */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { 
+    animation-duration: 0.001ms !important; 
+    transition-duration: 0.001ms !important; 
+  }
+}

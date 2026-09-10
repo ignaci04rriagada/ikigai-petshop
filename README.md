@@ -34,7 +34,7 @@ Alineado estrictamente con la rúbrica de evaluación y el encargo del proyecto,
 ikigai-petshop/
 ├── index.php                 # Vista Master (Catalogo general y filtros)
 ├── product.php               # Vista Detail (Ficha extendida via ?id=X)
-├── package.json              # Configuracion y scripts
+├
 ├── .gitignore                # Archivos ignorados por Git
 ├── README.md                 # Documentacion tecnica del proyecto
 ├── includes/                      # 

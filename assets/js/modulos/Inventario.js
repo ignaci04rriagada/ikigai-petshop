@@ -1,71 +1,107 @@
-import { Estado } from "../nucleo/Estado.js";
-import { Carrito, FREE_SHIPPING_THRESHOLD } from "../nucleo/Carrito.js";
-import { getIcon } from "../gamificacion/animaciones.js";
+/**
+ * modulos/Inventario.js
+ * Controla la interfaz del carrito: la barra inferior siempre
+ * visible (inv-bar) y el offcanvas de Bootstrap con el detalle
+ * (slots, envío gratis, tabla de descuentos). Se incluye en TODAS
+ * las páginas (index.php y product.php) porque includes/inventario.php
+ * vive en ambas.
+ */
+import { Estado, ICONS, CLP } from "../nucleo/Estado.js";
+import { Carrito } from "../nucleo/Carrito.js";
+import { Api } from "../servicios/api.js";
 
-const CLP = new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 });
+let ultimoIdAgregado = null;
 
-export function renderInventory(justAddedId = null) {
-  const invSlots = document.getElementById("inv-slots");
-  const invEmpty = document.getElementById("inv-empty");
-  const invCount = document.getElementById("inv-count");
-  const invDiscountLabel = document.getElementById("inv-discount-label");
-  const invSubtotal = document.getElementById("inv-subtotal");
-  const invTotal = document.getElementById("inv-total");
-  const shipLabel = document.getElementById("ship-label");
-  const shipBarFill = document.getElementById("ship-bar-fill");
-  const checkoutBtn = document.getElementById("checkout-btn");
-  const cartPeekCount = document.getElementById("cart-peek-count");
+export const Inventario = {
+  init() {
+    // Precarga el catálogo completo (sin filtros) solo para que el
+    // carrito pueda resolver precios sin importar qué filtro esté
+    // activo en el grid de index.php.
+    Api.obtenerProductos({}).done((productos) => Estado.registrarIndice(productos));
 
-  if (!invSlots) return;
+    $("#inv-slots").on("click", "[data-quitar]", (e) => {
+      Carrito.quitarItem($(e.currentTarget).data("quitar"));
+    });
 
-  const ids = Object.keys(Estado.cart);
-  invSlots.innerHTML = "";
-  if (invEmpty) invEmpty.hidden = ids.length !== 0;
+    $("#checkout-btn").on("click", function () {
+      if ($(this).prop("disabled")) return;
+      import("../gamificacion/animaciones.js").then(({ mostrarToast }) => {
+        mostrarToast("¡Gracias por tu compra! (demo)");
+      });
+    });
 
-  ids.forEach(id => {
-    const p = Estado.productos.find(x => String(x.id) === String(id));
-    if (!p) return;
-    const slot = document.createElement("div");
-    slot.className = "inv-slot" + (String(id) === String(justAddedId) ? " slot-pop" : "");
-    slot.setAttribute("role", "listitem");
-    slot.innerHTML = `
-      <div class="item-icon item-icon--slot" title="${p.name}">${getIcon(p.icon)}</div>
-      <span class="inv-slot-qty">×${Estado.cart[id]}</span>
-      <button class="inv-slot-remove" aria-label="Quitar ${p.name} del carrito" data-remove="${id}">✕</button>
-    `;
-    invSlots.appendChild(slot);
-  });
+    // Rota el ícono de la barra inferior según el offcanvas esté abierto o cerrado
+    const $offcanvas = $("#inventoryOffcanvas");
+    $offcanvas.on("show.bs.offcanvas", () => $("#inv-bar-chev").text("▾"));
+    $offcanvas.on("hide.bs.offcanvas", () => $("#inv-bar-chev").text("▴"));
 
-  const count = Carrito.obtenerConteo();
-  const subtotal = Carrito.obtenerSubtotal();
-  const tier = Carrito.obtenerTierActual();
-  const total = Carrito.obtenerTotal();
+    Estado.subscribe((state) => this.render(state));
+    this.render(Estado.state);
+  },
 
-  if (cartPeekCount) cartPeekCount.textContent = count;
-  if (invCount) invCount.textContent = count + (count === 1 ? " ítem" : " ítems");
+  /** Punto de entrada único para "agregar al carrito" desde cualquier módulo. */
+  agregarConAnimacion(productoId, producto, sourceEl) {
+    Carrito.agregarItem(productoId);
+    ultimoIdAgregado = productoId;
+    import("../gamificacion/animaciones.js").then(({ volarAlInventario, sacudirCarrito, mostrarToast }) => {
+      volarAlInventario(sourceEl, producto);
+      sacudirCarrito();
+      mostrarToast(`${producto.nombre} agregado`);
+    });
+  },
 
-  if (tier.rate > 0) {
-    if (invDiscountLabel) { invDiscountLabel.hidden = false; invDiscountLabel.textContent = `−${Math.round(tier.rate * 100)}% aplicado`; }
-    if (invSubtotal) { invSubtotal.hidden = false; invSubtotal.textContent = CLP.format(subtotal); }
-  } else {
-    if (invDiscountLabel) invDiscountLabel.hidden = true;
-    if (invSubtotal) invSubtotal.hidden = true;
+  render(state) {
+    const { carrito, indiceProductos } = state;
+    const ids = Object.keys(carrito);
+
+    $("#cart-peek-count").text(Carrito.cantidad());
+
+    const $slots = $("#inv-slots").empty();
+    $("#inv-empty").prop("hidden", ids.length !== 0);
+
+    ids.forEach(id => {
+      const producto = indiceProductos[id];
+      if (!producto) return;
+      const esNuevo = id === ultimoIdAgregado;
+      $slots.append(`
+        <div class="inv-slot ${esNuevo ? "slot-pop" : ""}" role="listitem">
+          <div class="item-icon item-icon--slot" title="${producto.nombre}">${ICONS[producto.icono] || "📦"}</div>
+          <span class="inv-slot-qty">×${carrito[id]}</span>
+          <button class="inv-slot-remove" aria-label="Quitar ${producto.nombre} del carrito" data-quitar="${id}">✕</button>
+        </div>
+      `);
+    });
+    ultimoIdAgregado = null;
+
+    const cantidad = Carrito.cantidad();
+    const subtotal = Carrito.subtotal();
+    const tramo = Carrito.tramoActual();
+    const total = Carrito.total();
+
+    $("#inv-count").text(cantidad + (cantidad === 1 ? " ítem" : " ítems"));
+
+    if (tramo.rate > 0) {
+      $("#inv-discount-label").prop("hidden", false).text(`−${Math.round(tramo.rate * 100)}% aplicado`);
+      $("#inv-subtotal").prop("hidden", false).text(CLP.format(subtotal));
+    } else {
+      $("#inv-discount-label").prop("hidden", true);
+      $("#inv-subtotal").prop("hidden", true);
+    }
+    $("#inv-total").text(CLP.format(total));
+    $("#checkout-btn").prop("disabled", cantidad === 0);
+
+    $(".discount-table tr[data-tier]").each(function () {
+      const t = Number($(this).data("tier"));
+      const activo = cantidad > 0 && ((t === 4 && cantidad >= 4) || t === cantidad);
+      $(this).toggleClass("active", activo);
+    });
+
+    const restante = Carrito.montoParaEnvioGratis();
+    const pct = Carrito.progresoEnvioGratisPct();
+    $("#ship-bar-fill").css("width", pct + "%");
+    $("#ship-progress .progress, .progress[aria-label='Progreso a envío gratis']").attr("aria-valuenow", pct);
+    $("#ship-label").text(restante > 0
+      ? `Te faltan ${CLP.format(restante)} para envío gratis`
+      : "¡Envío gratis desbloqueado!");
   }
-
-  if (invTotal) invTotal.textContent = CLP.format(total);
-  if (checkoutBtn) checkoutBtn.disabled = count === 0;
-
-  document.querySelectorAll(".discount-row").forEach(row => {
-    const t = row.dataset.tier;
-    row.classList.toggle("active", count > 0 && ((t === "4" && count >= 4) || Number(t) === count || (count > 3 && t === "4")));
-  });
-
-  const shipRemaining = FREE_SHIPPING_THRESHOLD - subtotal;
-  const pct = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
-  if (shipBarFill) shipBarFill.style.width = pct + "%";
-  if (shipLabel) {
-    shipLabel.textContent = shipRemaining > 0
-      ? `Te faltan ${CLP.format(shipRemaining)} para envío gratis`
-      : "¡Envío gratis desbloqueado!";
-  }
-}
+};

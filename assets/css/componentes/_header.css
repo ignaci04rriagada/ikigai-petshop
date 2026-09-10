@@ -1,16 +1,59 @@
-/**
- * ==============================================================================
- * PROYECTO: Ikigai Tienda de Mascotas
- * ARCHIVO: assets/css/components/_header.css
- * ROL: Estilos de la Barra de Navegación y Header Principal
- * ------------------------------------------------------------------------------
- * DESCRIPCIÓN:
- * - Maqueta la barra superior fija (logotipo, categorías y buscador).
- * - Define la apariencia del botón flotante/contenedor del Carrito.
- * - Posiciona el contador numérico (badge) de ítems sobre el ícono del carrito.
- * 
- * GAMIFICACIÓN ASOCIADA:
- * - Sirve como contenedor del ícono objetivo para la animación "Vuelo al carrito".
- * - Aloja la regla de transformación/pivote para el efecto "Mueve la colita".
- * ==============================================================================
- */
+/* ============================================================
+   _header.css
+   El navbar, los dropdowns y el buscador ya vienen resueltos por
+   Bootstrap (navbar, dropdown-menu, form-control). Acá solo lo
+   que Bootstrap no ofrece de fábrica: el mega-menú de dos columnas
+   + tarjeta destacada, y el badge flotante del botón de carrito.
+   ============================================================ */
+
+.site-navbar {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 250, 247, 0.92) !important;
+}
+
+/* Mega-menú: el .dropdown-menu de Bootstrap se ensancha y pasa a
+   grid en vez de la lista vertical por defecto. */
+.mega-menu {
+  min-width: 460px;
+  padding: 22px;
+  display: flex;
+  gap: 20px;
+  border-radius: var(--bs-border-radius-lg);
+  border-color: var(--ikigai-pink-line);
+}
+.mega-menu .dropdown-item {
+  padding: 4px 0;
+  font-weight: 600;
+  color: var(--ikigai-ink-soft);
+  border-radius: 6px;
+}
+.mega-menu .dropdown-item:hover,
+.mega-menu .dropdown-item:focus {
+  color: var(--bs-primary);
+  background: transparent;
+}
+.mega-feature {
+  width: 190px;
+  flex-shrink: 0;
+  text-align: center;
+  background: var(--ikigai-pink-bg);
+  border-radius: var(--bs-border-radius);
+  padding: 18px;
+}
+.mega-feature-badge {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; margin: 0 auto 10px;
+}
+
+/* Botón de acceso rápido al carrito, en el header */
+.cart-peek {
+  position: relative;
+  flex-shrink: 0;
+}
+.cart-peek-count {
+  position: absolute; top: -4px; right: -4px;
+  min-width: 18px; height: 18px; padding: 0 4px;
+  border: 2px solid var(--bs-body-bg);
+  font-size: 0.65rem;
+}

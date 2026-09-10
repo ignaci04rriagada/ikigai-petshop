@@ -1,25 +1,65 @@
-/* ===================== TOKENS Y VARIABLES ===================== */
+/* ============================================================
+   _variables.css
+   Dos tipos de variables acá:
+
+   1) Sobrescritura de las CSS variables NATIVAS de Bootstrap 5.3
+      (--bs-*). Al redefinirlas en :root, todas las clases de
+      Bootstrap (btn-primary, bg-primary, text-primary, .card,
+      .progress, .navbar, etc.) heredan automáticamente nuestra
+      identidad visual sin tener que sobreescribir cada clase a mano.
+
+   2) Tokens propios (--ikigai-*) para lo que Bootstrap no tiene:
+      la paleta oscura del inventario tipo videojuego y las
+      tipografías de marca.
+   ============================================================ */
 :root {
-  --ink: #26081b;
-  --ink-soft: #5c3a52;
-  --magenta: #e10b7c;
-  --magenta-deep: #a80a5f;
-  --magenta-soft: #ff5ba7;
-  --pink-bg: #ffeaf3;
-  --pink-line: #ffd3e7;
-  --cream: #fffaf7;
-  --amber: #ffb100;
-  --mint: #14b871;
-  --slot: #2b0e22;
-  --slot-light: #3d1631;
-  --slot-line: #5a2246;
+  /* ---- Bootstrap: color ---- */
+  --bs-primary: #e10b7c;
+  --bs-primary-rgb: 225, 11, 124;
+  --bs-secondary: #26081b;
+  --bs-secondary-rgb: 38, 8, 27;
+  --bs-success: #14b871;
+  --bs-success-rgb: 20, 184, 113;
+  --bs-warning: #ffb100;
+  --bs-warning-rgb: 255, 177, 0;
+  --bs-light: #ffeaf3;
+  --bs-light-rgb: 255, 234, 243;
+  --bs-dark: #26081b;
+  --bs-dark-rgb: 38, 8, 27;
 
-  --font-display: "Baloo 2", system-ui, sans-serif;
-  --font-body: "Manrope", system-ui, sans-serif;
-  --font-pixel: "Press Start 2P", monospace;
+  --bs-body-bg: #fffaf7;
+  --bs-body-color: #26081b;
+  --bs-body-font-family: "Manrope", system-ui, sans-serif;
+  --bs-link-color: var(--bs-primary);
+  --bs-link-hover-color: #a80a5f;
+  --bs-link-decoration: none;
 
-  --radius-lg: 22px;
-  --radius-md: 14px;
-  --radius-sm: 9px;
-  --shadow-card: 0 2px 0 var(--pink-line), 0 10px 24px -14px rgba(38, 8, 27, 0.35);
+  /* ---- Bootstrap: forma ---- */
+  --bs-border-radius: 0.9rem;
+  --bs-border-radius-sm: 0.6rem;
+  --bs-border-radius-lg: 1.375rem;
+  --bs-border-radius-xl: 1.75rem;
+  --bs-border-color: #ffd3e7;
+
+  /* ---- Tokens propios (fuera del sistema de Bootstrap) ---- */
+  --ikigai-font-display: "Baloo 2", system-ui, sans-serif;
+  --ikigai-font-pixel: "Press Start 2P", monospace;
+
+  --ikigai-ink-soft: #5c3a52;
+  --ikigai-pink-bg: #ffeaf3;
+  --ikigai-pink-line: #ffd3e7;
+  --ikigai-magenta-soft: #ff5ba7;
+
+  /* Paleta del carrito-inventario (fondo oscuro tipo consola) */
+  --ikigai-slot: #2b0e22;
+  --ikigai-slot-light: #3d1631;
+  --ikigai-slot-line: #5a2246;
+
+  --ikigai-inv-collapsed-height: 58px;
+}
+
+/* Aplica la tipografía de marca a los encabezados sin tocar el
+   body-font que ya gestiona Bootstrap vía --bs-body-font-family. */
+h1, h2, h3, h4, .navbar-brand, .display-title {
+  font-family: var(--ikigai-font-display);
 }

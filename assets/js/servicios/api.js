@@ -1,37 +1,35 @@
 /**
- * Servicio API para comunicarse con los endpoints en PHP.
+ * servicios/api.js
+ * Toda peticiÃģn a la API pasa por acÃĄ, usando $.ajax (jQuery),
+ * como especifica el stack del proyecto. NingÃšn otro mÃģdulo debe
+ * llamar a $.ajax directamente.
  */
-export async function fetchProductos(params = {}) {
-  try {
-    const query = new URLSearchParams(params).toString();
-    const url = `api/productos.php${query ? `?${query}` : ""}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    return await res.json();
-  } catch (err) {
-    console.error("Error al obtener productos desde API:", err);
-    return [];
-  }
-}
 
-export async function fetchProductoPorId(id) {
-  try {
-    const res = await fetch(`api/productos.php?id=${encodeURIComponent(id)}`);
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    return await res.json();
-  } catch (err) {
-    console.error(`Error al obtener producto ${id}:`, err);
-    return null;
-  }
-}
+const ENDPOINTS = {
+  productos: "api/productos.php",
+  categorias: "api/categorias.php"
+};
 
-export async function fetchCategorias() {
-  try {
-    const res = await fetch("api/categorias.php");
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    return await res.json();
-  } catch (err) {
-    console.error("Error al obtener categorías:", err);
-    return [];
+export const Api = {
+  /**
+   * @param {{categoria?:string, subcategoria?:string, oferta?:boolean, busqueda?:string}} filtros
+   * @returns {JQuery.Promise}
+   */
+  obtenerProductos(filtros = {}) {
+    const params = {};
+    if (filtros.categoria && filtros.categoria !== "all") params.categoria = filtros.categoria;
+    if (filtros.subcategoria) params.subcategoria = filtros.subcategoria;
+    if (filtros.oferta) params.oferta = 1;
+    if (filtros.busqueda) params.busqueda = filtros.busqueda;
+
+    return $.ajax({ url: ENDPOINTS.productos, method: "GET", dataType: "json", data: params });
+  },
+
+  obtenerProducto(id) {
+    return $.ajax({ url: ENDPOINTS.productos, method: "GET", dataType: "json", data: { id } });
+  },
+
+  obtenerCategorias() {
+    return $.ajax({ url: ENDPOINTS.categorias, method: "GET", dataType: "json" });
   }
-}
+};

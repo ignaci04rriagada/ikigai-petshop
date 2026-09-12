@@ -1,65 +1,148 @@
 /* ============================================================
-   _variables.css
-   Dos tipos de variables acá:
-
-   1) Sobrescritura de las CSS variables NATIVAS de Bootstrap 5.3
-      (--bs-*). Al redefinirlas en :root, todas las clases de
-      Bootstrap (btn-primary, bg-primary, text-primary, .card,
-      .progress, .navbar, etc.) heredan automáticamente nuestra
-      identidad visual sin tener que sobreescribir cada clase a mano.
-
-   2) Tokens propios (--ikigai-*) para lo que Bootstrap no tiene:
-      la paleta oscura del inventario tipo videojuego y las
-      tipografías de marca.
+   _variables.css - Sistema de Tokens y Variables CSS
+   ============================================================
+   Este archivo consolida la identidad visual de Ikigai Petshop:
+   
+   1. Sobrescribe las variables nativas de Bootstrap 5.3 (--bs-*)
+      para adaptar sus componentes estándar (botones, modales,
+      tipografía base) a nuestra marca sin duplicar código.
+      
+   2. Define nuestras variables personalizadas (--ikigai-*) para
+      elementos propios como la interfaz del inventario oscuro,
+      diseño de tarjetas, tipografías e interacciones.
    ============================================================ */
+
 :root {
-  /* ---- Bootstrap: color ---- */
+  /* ----------------------------------------------------------
+     1. PALETA DE COLORES DE BOOTSTRAP 5.3 (--bs-*)
+     Reemplaza la paleta por defecto por los colores de la marca.
+     ---------------------------------------------------------- */
+  
+  /* Color principal de la marca (botones primarios, enlaces y destacados) */
   --bs-primary: #e10b7c;
   --bs-primary-rgb: 225, 11, 124;
+
+  /* Color secundario y tonos oscuros de texto profundo */
   --bs-secondary: #26081b;
   --bs-secondary-rgb: 38, 8, 27;
+
+  /* Color para estados de éxito (badges de stock normal y confirmaciones) */
   --bs-success: #14b871;
   --bs-success-rgb: 20, 184, 113;
+
+  /* Color para advertencias o alertas de stock ajustado */
   --bs-warning: #ffb100;
   --bs-warning-rgb: 255, 177, 0;
+
+  /* Fondo claro suave con matiz rosado para contenedores */
   --bs-light: #ffeaf3;
   --bs-light-rgb: 255, 234, 243;
+
+  /* Color para elementos en modo oscuro */
   --bs-dark: #26081b;
   --bs-dark-rgb: 38, 8, 27;
 
+  /* Fondo general de la aplicación y color global de texto */
   --bs-body-bg: #fffaf7;
   --bs-body-color: #26081b;
   --bs-body-font-family: "Manrope", system-ui, sans-serif;
+
+  /* Configuración de enlaces hipertexto */
   --bs-link-color: var(--bs-primary);
   --bs-link-hover-color: #a80a5f;
   --bs-link-decoration: none;
 
-  /* ---- Bootstrap: forma ---- */
-  --bs-border-radius: 0.9rem;
-  --bs-border-radius-sm: 0.6rem;
-  --bs-border-radius-lg: 1.375rem;
-  --bs-border-radius-xl: 1.75rem;
-  --bs-border-color: #ffd3e7;
 
-  /* ---- Tokens propios (fuera del sistema de Bootstrap) ---- */
-  --ikigai-font-display: "Baloo 2", system-ui, sans-serif;
-  --ikigai-font-pixel: "Press Start 2P", monospace;
+  /* ----------------------------------------------------------
+     2. REDONDEOS Y BORDES DE BOOTSTRAP 5.3 (--bs-border-*)
+     Establece bordes más suaves y curvos para un estilo amigable.
+     ---------------------------------------------------------- */
 
-  --ikigai-ink-soft: #5c3a52;
-  --ikigai-pink-bg: #ffeaf3;
-  --ikigai-pink-line: #ffd3e7;
-  --ikigai-magenta-soft: #ff5ba7;
+  --bs-border-radius: 0.9rem;          /* Redondeo estándar en tarjetas y campos */
+  --bs-border-radius-sm: 0.6rem;       /* Redondeo pequeño en botones o tags */
+  --bs-border-radius-lg: 1.375rem;     /* Redondeo amplio en contenedores grandes */
+  --bs-border-radius-xl: 1.75rem;      /* Redondeo extra grande para modales */
+  --bs-border-color: #ffd3e7;          /* Color global para líneas divisorias */
 
-  /* Paleta del carrito-inventario (fondo oscuro tipo consola) */
-  --ikigai-slot: #2b0e22;
-  --ikigai-slot-light: #3d1631;
-  --ikigai-slot-line: #5a2246;
 
-  --ikigai-inv-collapsed-height: 58px;
+  /* ----------------------------------------------------------
+     3. TIPOGRAFÍAS DE MARCA PROPIAS (--ikigai-fuente-*)
+     Tokens para aplicar las fuentes de Google Fonts seleccionadas.
+     ---------------------------------------------------------- */
+
+  /* Tipografía redondeada para encabezados y títulos principales */
+  --ikigai-fuente-titulos: "Baloo 2", system-ui, sans-serif;
+
+  /* Tipografía estilo retro/pixel para la barra de progreso y gamificación */
+  --ikigai-fuente-pixel: "Press Start 2P", monospace;
+
+
+  /* ----------------------------------------------------------
+     4. PALETA DE COLORES Y ESTADOS PROPIOS (--ikigai-color-*)
+     Variables para componentes que no pertenecen a Bootstrap.
+     ---------------------------------------------------------- */
+
+  /* Color de texto secundario o atenuado */
+  --ikigai-texto-suave: #5c3a52;
+
+  /* Fondo de realce rosa claro */
+  --ikigai-rosado-fondo: #ffeaf3;
+
+  /* Color para líneas y bordes decorativos finos */
+  --ikigai-rosado-linea: #ffd3e7;
+
+  /* Color magenta brillante para insignias de ofertas relámpago */
+  --ikigai-magenta-suave: #ff5ba7;
+
+  /* Alerta para indicador de pocas unidades (stock <= 3) */
+  --ikigai-stock-bajo: #ff4757;
+
+  /* Confirmación de disponibilidad de producto */
+  --ikigai-stock-ok: #2ed573;
+
+
+  /* ----------------------------------------------------------
+     5. TEMA OSCURO DEL CARRITO TIPO INVENTARIO (--ikigai-inv-*)
+     Variables exclusivas para el panel inferior flotante de compras.
+     ---------------------------------------------------------- */
+
+  /* Fondo principal de las casillas (slots) del inventario */
+  --ikigai-inv-slot-fondo: #2b0e22;
+
+  /* Fondo de casilla activa, seleccionada o en estado hover */
+  --ikigai-inv-slot-activo: #3d1631;
+
+  /* Borde delimitador de cada espacio en el carrito */
+  --ikigai-inv-slot-borde: #5a2246;
+
+  /* Altura fija del panel cuando permanece colapsado en la parte inferior */
+  --ikigai-inv-altura-colapsado: 58px;
+
+  /* Resplandor neón en la barra de progreso de envío gratis */
+  --ikigai-inv-brillo-progreso: 0 0 10px rgba(225, 11, 124, 0.5);
+
+
+  /* ----------------------------------------------------------
+     6. ELEVACIONES, SOMBRAS Y TRANSICIONES (--ikigai-sombra-*)
+     Sensación de profundidad y suavidad en las interacciones.
+     ---------------------------------------------------------- */
+
+  /* Sombra para las tarjetas de productos en la grilla del catálogo */
+  --ikigai-sombra-tarjeta: 0 8px 20px rgba(38, 8, 27, 0.06);
+
+  /* Sombra superior para el panel de inventario flotante */
+  --ikigai-sombra-inventario: 0 -4px 25px rgba(0, 0, 0, 0.25);
+
+  /* Transición suave estándar para efectos al pasar el cursor */
+  --ikigai-transicion-rapida: 0.15s ease;
+
+  /* Transición con rebote ligero para apertura de modales y avisos */
+  --ikigai-transicion-rebote: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Aplica la tipografía de marca a los encabezados sin tocar el
-   body-font que ya gestiona Bootstrap vía --bs-body-font-family. */
+/* ============================================================
+   APLICACIÓN GLOBAL DE TIPOGRAFÍA DE ENCABEZADOS
+   ============================================================ */
 h1, h2, h3, h4, .navbar-brand, .display-title {
-  font-family: var(--ikigai-font-display);
+  font-family: var(--ikigai-fuente-titulos);
 }

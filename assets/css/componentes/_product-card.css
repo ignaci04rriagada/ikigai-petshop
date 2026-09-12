@@ -5,37 +5,3 @@
    fotografías) y el badge de stock bajo superpuesto.
    ============================================================ */
 
-.product-card {
-  transition: transform .15s ease, box-shadow .15s ease;
-  border-color: var(--ikigai-pink-line);
-}
-.product-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px -14px rgba(38, 8, 27, 0.35);
-}
-
-.card-icon-wrap { position: relative; display: flex; justify-content: center; padding-top: 6px; }
-
-.item-icon {
-  width: 84px; height: 84px; border-radius: var(--bs-border-radius);
-  background: var(--ikigai-pink-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2.4rem;
-}
-.item-icon--lg { width: 140px; height: 140px; border-radius: var(--bs-border-radius-xl); font-size: 4rem; }
-.item-icon--slot { width: 100%; height: 100%; border-radius: 8px; font-size: 1.5rem; background: none; }
-
-/* Badge de stock bajo, superpuesto sobre el ícono */
-.stock-tag {
-  position: absolute; top: -6px; right: calc(50% - 52px);
-  font-family: var(--ikigai-font-pixel);
-  font-size: 0.55rem;
-  padding: 5px 7px;
-}
-
-.card-name-link {
-  color: var(--bs-body-color);
-  font-weight: 700;
-  text-decoration: none;
-}
-.card-name-link:hover { color: var(--bs-primary); }

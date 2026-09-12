@@ -3,21 +3,3 @@
    Bootstrap no tiene animaciones custom; estos keyframes son
    disparados por assets/js/gamificacion/animaciones.js.
    ============================================================ */
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0); }
-  20% { transform: rotate(-9deg); }
-  40% { transform: rotate(8deg); }
-  60% { transform: rotate(-6deg); }
-  80% { transform: rotate(4deg); }
-}
-.wiggle { animation: wiggle .45s ease; }
-
-.fly-item {
-  position: fixed; z-index: 2000; border-radius: 10px;
-  background: var(--ikigai-pink-bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; pointer-events: none;
-  transition: left .55s cubic-bezier(.2,.7,.3,1), top .55s cubic-bezier(.2,.7,.3,1),
-              width .55s ease, height .55s ease, opacity .55s ease .05s, transform .55s ease;
-}

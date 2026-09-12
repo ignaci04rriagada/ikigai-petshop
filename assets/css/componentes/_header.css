@@ -1,59 +1,122 @@
 /* ============================================================
    _header.css
-   El navbar, los dropdowns y el buscador ya vienen resueltos por
-   Bootstrap (navbar, dropdown-menu, form-control). Acá solo lo
-   que Bootstrap no ofrece de fábrica: el mega-menú de dos columnas
-   + tarjeta destacada, y el badge flotante del botón de carrito.
+   Estilos específicos del componente de navegación principal.
+   Encapsulado bajo .site-navbar y .mega-menu para evitar solapamientos.
    ============================================================ */
 
+/* --- 1. Aislamiento del Navbar --- */
 .site-navbar {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 250, 247, 0.92) !important;
+  background-color: #ffffff;
+  z-index: 1030; /* Asegura quedar sobre el contenido del catálogo */
 }
 
-/* Mega-menú: el .dropdown-menu de Bootstrap se ensancha y pasa a
-   grid en vez de la lista vertical por defecto. */
-.mega-menu {
-  min-width: 460px;
-  padding: 22px;
+/* Adaptación del logo */
+.site-navbar .navbar-brand {
+  transition: opacity var(--ikigai-transicion-rapida, 0.15s ease);
+}
+
+.site-navbar .navbar-brand:hover {
+  opacity: 0.85;
+}
+
+
+/* --- 2. Mega-Menú (.mega-menu) --- */
+/* Comportamiento base (móviles/pantallas pequeñas) */
+.site-navbar .mega-menu {
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--bs-border-radius, 0.9rem);
+  border-color: var(--bs-border-color, #ffd3e7);
+}
+
+/* Pantallas grandes (Desktop >= 992px) */
+@media (min-width: 992px) {
+  .site-navbar .mega-menu {
+    min-width: 580px; /* Ancho suficiente para las 2 columnas + feature */
+    display: none;    /* Bootstrap lo alterna a flex/block al desplegar */
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  /* Si el li.dropdown es contenedor flex en desktop */
+  .site-navbar .dropdown-menu.mega-menu.show {
+    display: flex;
+    align-items: stretch;
+  }
+}
+
+/* Ajustes de los ítems de categoría (botones dentro del mega-menú) */
+.site-navbar .mega-menu .dropdown-item {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--bs-border-radius-sm, 0.6rem);
+  font-weight: 500;
+  color: var(--bs-body-color, #26081b);
+  transition: background-color var(--ikigai-transicion-rapida, 0.15s ease),
+              color var(--ikigai-transicion-rapida, 0.15s ease);
+}
+
+.site-navbar .mega-menu .dropdown-item:hover,
+.site-navbar .mega-menu .dropdown-item:focus {
+  background-color: var(--ikigai-rosado-fondo, #ffeaf3);
+  color: var(--bs-primary, #e10b7c);
+}
+
+
+/* --- 3. Tarjeta Destacada (.mega-feature) --- */
+.site-navbar .mega-feature {
+  background-color: var(--ikigai-rosado-fondo, #ffeaf3);
+  border-radius: var(--bs-border-radius, 0.9rem);
+  padding: 1rem;
+  width: 100%;             /* Ocupa todo el ancho en móviles */
+  max-width: none;         /* Elimina la restricción de 200px en móvil */
+  margin-top: 0.75rem;     /* Separa la tarjeta de la lista de subcategorías */
   display: flex;
-  gap: 20px;
-  border-radius: var(--bs-border-radius-lg);
-  border-color: var(--ikigai-pink-line);
-}
-.mega-menu .dropdown-item {
-  padding: 4px 0;
-  font-weight: 600;
-  color: var(--ikigai-ink-soft);
-  border-radius: 6px;
-}
-.mega-menu .dropdown-item:hover,
-.mega-menu .dropdown-item:focus {
-  color: var(--bs-primary);
-  background: transparent;
-}
-.mega-feature {
-  width: 190px;
-  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
   text-align: center;
-  background: var(--ikigai-pink-bg);
-  border-radius: var(--bs-border-radius);
-  padding: 18px;
-}
-.mega-feature-badge {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #fff; display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; margin: 0 auto 10px;
 }
 
-/* Botón de acceso rápido al carrito, en el header */
-.cart-peek {
-  position: relative;
-  flex-shrink: 0;
+.site-navbar .mega-feature-badge {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
 }
-.cart-peek-count {
-  position: absolute; top: -4px; right: -4px;
-  min-width: 18px; height: 18px; padding: 0 4px;
-  border: 2px solid var(--bs-body-bg);
-  font-size: 0.65rem;
+
+/* Solo en pantallas grandes de escritorio aplicamos la restricción de ancho */
+@media (min-width: 992px) {
+  .site-navbar .mega-feature {
+    min-width: 180px;
+    max-width: 200px;
+    margin-top: 0;         /* Restablece el margen en desktop */
+  }
 }
+
+.site-navbar .mega-feature-badge {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+
+/* --- 4. Disparador del Carrito (.cart-peek) --- */
+.site-navbar .cart-peek {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform var(--ikigai-transicion-rapida, 0.15s ease);
+}
+
+.site-navbar .cart-peek:hover {
+  transform: scale(1.05);
+}
+
+/* Badge contador del carrito */
+.site-navbar .cart-peek-count {
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  font-family: var(--bs-body-font-family);
+}
+
